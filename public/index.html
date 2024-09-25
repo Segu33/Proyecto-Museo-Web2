@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metropolitan Museum Art Collection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Pantalla de bienvenida -->
+    <div id="welcome-screen" class="welcome-screen">
+        <!-- Imagen de fondo y texto de bienvenida -->
+        <div class="welcome-content">
+            <h1>Bienvenido al Metropolitan Museum</h1>
+            <button id="enterMuseumBtn" class="enter-btn">Ingresar al Museo</button>
+        </div>
+    </div>
+
+    <!-- Página principal del museo (oculta inicialmente) -->
+    <div id="museum-page" class="container" style="display: none;">
+        <h1>Metropolitan Museum Art Collection</h1>
+
+        <!-- Filtros de búsqueda -->
+        <div class="filters">
+            <select id="departmentSelect">
+                <option value="">Seleccione un Departamento</option>
+                <!-- Opciones de departamentos serán llenadas dinámicamente desde el script -->
+            </select>
+
+            <input type="text" id="keywordInput" placeholder="Buscar por palabra clave">
+
+            <!-- Campo de localización con datalist -->
+            <label for="locationInput">Localización:</label>
+            <input list="locationOptions" id="locationInput" name="locationInput" placeholder="Escribe o elige una localización">
+            <datalist id="locationOptions">
+                <option value="Europe"></option>
+                <option value="Asia"></option>
+                <option value="Africa"></option>
+                <option value="North America"></option>
+                <option value="South America"></option>
+                <option value="Oceania"></option>
+                <!-- Puedes añadir más localizaciones predefinidas aquí -->
+            </datalist>
+            
+            <!-- Checkbox para filtrar por imágenes adicionales -->
+            <label>
+                <input type="checkbox" id="additionalImagesOnly"> Solo mostrar objetos con imágenes adicionales
+            </label>
+
+            <button id="applyFiltersBtn">Aplicar Filtros</button>
+            <button id="resetFiltersBtn">Restablecer Filtros</button> <!-- Botón para restablecer filtros -->
+        </div>
+        
+        <!-- Contenedor para las obras de arte -->
+        <div id="artGrid" class="grid-container"></div>
+        
+        <!-- Paginación -->
+        <div class="pagination">
+            <button id="prevPage" disabled>Anterior</button>
+            <button id="nextPage">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" style="display: none;">Buscando...</div>
+    
+    <!-- Cargar el script al final para asegurar que el DOM está listo -->
+    <script src="script.js"></script>
+</body>
+</html>
