@@ -30,7 +30,6 @@
             <input type="text" id="keywordInput" placeholder="Buscar por palabra clave">
 
             <!-- Campo de localización con datalist -->
-            <label for="locationInput">Localización:</label>
             <input list="locationOptions" id="locationInput" name="locationInput" placeholder="Escribe o elige una localización">
             <datalist id="locationOptions">
                 <option value="Europe"></option>
@@ -41,14 +40,18 @@
                 <option value="Oceania"></option>
                 <!-- Puedes añadir más localizaciones predefinidas aquí -->
             </datalist>
-            
-            <!-- Checkbox para filtrar por imágenes adicionales -->
-            <label>
-                <input type="checkbox" id="additionalImagesOnly"> Solo mostrar objetos con imágenes adicionales
-            </label>
 
-            <button id="applyFiltersBtn">Aplicar Filtros</button>
-            <button id="resetFiltersBtn">Restablecer Filtros</button> <!-- Botón para restablecer filtros -->
+            <!-- Checkbox para filtrar por imágenes adicionales -->
+            <div class="checkbox-container">
+                <label for="additionalImagesOnly" class="checkbox-label">
+                    <input type="checkbox" id="additionalImagesOnly"> Solo mostrar objetos con imágenes adicionales
+                </label>
+            </div>
+            <!-- Nuevo contenedor para centrar los botones -->
+            <div class="filter-buttons">
+                <button id="applyFiltersBtn">Aplicar Filtros</button>
+                <button id="resetFiltersBtn">Restablecer Filtros</button>
+            </div>
         </div>
         
         <!-- Contenedor para las obras de arte -->
