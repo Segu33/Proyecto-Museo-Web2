@@ -44,8 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Poblar el select de departamentos
+    // Poblar el select de departamentos y ordenarlos alfabéticamente
     function populateDepartmentSelect(departments) {
+        // Ordenar los departamentos alfabéticamente por 'displayName'
+        departments.sort((a, b) => a.displayName.localeCompare(b.displayName));
+
+        // Luego de ordenar, poblar el select
         departments.forEach(department => {
             const option = document.createElement('option');
             option.value = department.departmentId;
@@ -125,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const location = locationInput.value;
         
         let apiUrl = `https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=${encodeURIComponent(keyword)}`;
+        
         
         if (department) {
             apiUrl += `&departmentId=${department}`;
