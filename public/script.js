@@ -73,25 +73,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const start = (currentPage - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         const objectsToDisplay = objectIDs.slice(start, end);
-
-        for (let objectID of objectsToDisplay) {
-            if (shownObjectIDs.has(objectID)) {
-                continue;
-            }
-
+    
+        const fetchPromises = objectsToDisplay.map(async (objectID) => {
+            if (shownObjectIDs.has(objectID)) return;
+    
             try {
                 const response = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`);
                 const data = await response.json();
-
-                if (!data.primaryImageSmall) {
-                    continue;
-                }
-
+                if (!data.primaryImageSmall) return;
+    
                 const hasAdditionalImages = data.additionalImages && data.additionalImages.length > 0;
-                if (additionalImagesOnly && !hasAdditionalImages) {
-                    continue;
-                }
-
+                if (additionalImagesOnly && !hasAdditionalImages) return;
+    
                 const title = await translateText(data.title || 'Sin título', 'es');
                 const culture = await translateText(data.culture || 'Desconocido', 'es');
                 const dynasty = await translateText(data.dynasty || 'Desconocido', 'es');
@@ -102,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (hasAdditionalImages) {
                     viewMoreButton = `<button class="view-more" onclick="showAdditionalImages('${encodeURIComponent(JSON.stringify(data.additionalImages))}')">Ver más imágenes</button>`;
                 }
-
+    
                 const card = `
                     <div class="card" title="Fecha de creación: ${creationDate}">
                         <img src="${imageSrc}" alt="${title}" onerror="this.onerror=null; this.src='${defaultImage}';">
@@ -114,12 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 artGrid.insertAdjacentHTML('beforeend', card);
                 shownObjectIDs.add(objectID);
-
             } catch (error) {
                 console.error(`Error al recuperar el objeto con ID ${objectID}:`, error);
             }
-        }
-
+        });
+    
+        await Promise.all(fetchPromises);
         loader.style.display = 'none';
         updatePaginationButtons();
     }
@@ -128,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function fetchObjectIDs() {
         loader.style.display = 'block';
         const department = departmentSelect.value;
-        const keyword = keywordInput.value || 'flowers';            
+        const keyword = keywordInput.value.trim();            
         const location = locationInput.value;
         
         let apiUrl = `https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=${encodeURIComponent(keyword)}`;
