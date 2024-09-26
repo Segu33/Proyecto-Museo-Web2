@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const keywordInput = document.getElementById('keywordInput'); 
     const locationInput = document.getElementById('locationInput');
     const applyFiltersBtn = document.getElementById('applyFiltersBtn');
-    const resetFiltersBtn = document.getElementById('resetFiltersBtn'); // Botón de restablecer
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
     const additionalImagesOnlyCheckbox = document.getElementById('additionalImagesOnly');
     const defaultImage = "https://www.jpeg-repair.org/img/idndex_sample3A.jpg";
     let currentPage = 1;
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('enterMuseumBtn').addEventListener('click', function() {
         document.getElementById('welcome-screen').style.display = 'none';
         document.getElementById('museum-page').style.display = 'block';
-        // No mostrar imágenes destacadas inicialmente
         artGrid.innerHTML = '<p>Por favor, aplica un filtro para ver los resultados.</p>';
     });
 
@@ -46,10 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Poblar el select de departamentos y ordenarlos alfabéticamente
     function populateDepartmentSelect(departments) {
-        // Ordenar los departamentos alfabéticamente por 'displayName'
         departments.sort((a, b) => a.displayName.localeCompare(b.displayName));
-
-        // Luego de ordenar, poblar el select
         departments.forEach(department => {
             const option = document.createElement('option');
             option.value = department.departmentId;
@@ -66,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return data.responseData.translatedText;
         } catch (error) {
             console.error('Error translating text:', error);
-            return text; // Si falla, devuelve el texto original
+            return text; 
         }
     }
 
@@ -80,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
         const fetchPromises = objectsToDisplay.map(async (objectID) => {
             if (shownObjectIDs.has(objectID)) return;
-    
             try {
                 const response = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`);
                 const data = await response.json();
@@ -130,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let apiUrl = `https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=${encodeURIComponent(keyword)}`;
         
-        
         if (department) {
             apiUrl += `&departmentId=${department}`;
         }
@@ -149,10 +143,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.objectIDs && data.objectIDs.length > 0) {
                 objectIDs = data.objectIDs;
                 totalItems = objectIDs.length;
-                console.log(`Se encontraron ${totalItems} objetos con los filtros aplicados.`);
                 await displayObjectsWithImages();
             } else {
-                console.warn('No se encontraron objetos con los filtros aplicados.');
                 artGrid.innerHTML = '<p>No se encontraron resultados. Intente con otros filtros.</p>';
             }
         } catch (error) {
@@ -170,13 +162,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para restablecer los filtros
     resetFiltersBtn.addEventListener('click', function() {
-        // Limpiar campos de entrada
         departmentSelect.value = "";
         keywordInput.value = "";
         locationInput.value = "";
         additionalImagesOnlyCheckbox.checked = false;
 
-        // Restablecer las variables internas
         currentPage = 1;
         totalItems = 0;
         objectIDs = [];
@@ -184,21 +174,15 @@ document.addEventListener('DOMContentLoaded', function() {
         additionalImagesOnly = false;
         filtersApplied = false;
 
-        // Limpiar el grid de arte para dejar la página vacía
         artGrid.innerHTML = '<p>No se han aplicado filtros. Por favor, utiliza los filtros para ver los resultados.</p>';
-
-        // Desactivar botones de paginación
         prevPageBtn.disabled = true;
         nextPageBtn.disabled = true;
-
-        console.log('Filtros restablecidos y página vacía.');
     });
 
     // Funciones para manejar la paginación
     prevPageBtn.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
-            loader.style.display = 'block';
             displayObjectsWithImages();
         }
     });
@@ -206,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function() {
     nextPageBtn.addEventListener('click', () => {
         if (filtersApplied && currentPage * itemsPerPage < totalItems) {
             currentPage++;
-            loader.style.display = 'block';
             displayObjectsWithImages();
         }
     });

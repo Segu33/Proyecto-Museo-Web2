@@ -9,7 +9,6 @@
 <body>
     <!-- Pantalla de bienvenida -->
     <div id="welcome-screen" class="welcome-screen">
-        <!-- Imagen de fondo y texto de bienvenida -->
         <div class="welcome-content">
             <h1>Bienvenido al Metropolitan Museum</h1>
             <button id="enterMuseumBtn" class="enter-btn">Ingresar al Museo</button>
@@ -24,13 +23,13 @@
         <div class="filters">
             <select id="departmentSelect">
                 <option value="">Seleccione un Departamento</option>
-                <!-- Opciones de departamentos serán llenadas dinámicamente desde el script -->
+                <!-- Opciones llenadas dinámicamente -->
             </select>
 
             <input type="text" id="keywordInput" placeholder="Buscar por palabra clave">
 
             <!-- Campo de localización con datalist -->
-            <input list="locationOptions" id="locationInput" name="locationInput" placeholder="Escribe o elige una localización">
+            <input list="locationOptions" id="locationInput" placeholder="Escribe o elige una localización">
             <datalist id="locationOptions">
                 <option value="Europe"></option>
                 <option value="Asia"></option>
@@ -38,16 +37,14 @@
                 <option value="North America"></option>
                 <option value="South America"></option>
                 <option value="Oceania"></option>
-                <!-- Puedes añadir más localizaciones predefinidas aquí -->
             </datalist>
 
             <!-- Checkbox para filtrar por imágenes adicionales -->
-            <div class="checkbox-container">
-                <label for="additionalImagesOnly" class="checkbox-label">
-                    <input type="checkbox" id="additionalImagesOnly"> Solo mostrar objetos con imágenes adicionales
-                </label>
-            </div>
-            <!-- Nuevo contenedor para centrar los botones -->
+            <label for="additionalImagesOnly" class="checkbox-label">
+                <input type="checkbox" id="additionalImagesOnly"> Solo mostrar objetos con imágenes adicionales
+            </label>
+
+            <!-- Botones de filtros -->
             <div class="filter-buttons">
                 <button id="applyFiltersBtn">Aplicar Filtros</button>
                 <button id="resetFiltersBtn">Restablecer Filtros</button>
@@ -66,8 +63,8 @@
 
     <!-- Loader -->
     <div id="loader" style="display: none;">Buscando...</div>
-    
-    <!-- Cargar el script al final para asegurar que el DOM está listo -->
+
+    <!-- Cargar el script -->
     <script src="script.js"></script>
 </body>
 </html>
